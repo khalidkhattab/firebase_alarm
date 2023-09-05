@@ -641,7 +641,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                       : kWidth < 700
                                           ? 2
                                           : 5,
-
                                   crossAxisSpacing: 5,
                                   childAspectRatio: kWidth > 1000 ? 1.5 : 2,
                                 ),
