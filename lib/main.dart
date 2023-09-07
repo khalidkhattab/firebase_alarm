@@ -406,6 +406,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         Card(
                           child: IconButton(
                               onPressed: () {
+                                cubit.addTeacher(cID: '283021205457');
+                              },
+                              icon:state is AddTeacherLoadingStates?const CircularProgressIndicator(color: Colors.amber,): const Icon(
+                                Icons.person,
+                                color: Colors.teal,
+                              )),
+                        ),
+                        Card(
+                          child: IconButton(
+                              onPressed: () {
                                 showDialog(
                                     context: context,
                                     builder: (context) {

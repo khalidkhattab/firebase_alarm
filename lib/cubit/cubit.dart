@@ -9,14 +9,9 @@ class AlarmCubit extends Cubit<AlarmStatus> {
 
   static AlarmCubit get(context) => BlocProvider.of(context);
 
-  int count = 0;
 
   late List<SchoolTable> dailyTable;
   String currentDay = DateFormat('EEEE').format(DateTime.now());
-  void increaseCount() {
-    count = count + 1;
-    emit(IncreaseCountStatus());
-  }
 
   getDailyTable() {
     emit(GetDailyTableLoadingStates());
@@ -47,12 +42,33 @@ class AlarmCubit extends Cubit<AlarmStatus> {
         .collection('alert')
         .snapshots()
         .forEach((element) {
-      alertData = [];
-      for (var value in element.docs) {
-        if (value.data()['read'] != true) {
-          alertData.add(SchoolAlert.formJson(value.data()));
-        }
-      }
-    }).then((value) => emit(GetAlertSuccessStates())).catchError((error)=>emit(GetAlertErrorStates()));
+          alertData = [];
+          for (var value in element.docs) {
+            if (value.data()['read'] != true) {
+              alertData.add(SchoolAlert.formJson(value.data()));
+            }
+          }
+        })
+        .then((value) => emit(GetAlertSuccessStates()))
+        .catchError((error) => emit(GetAlertErrorStates()));
+  }
+
+  addTeacher({required String cID}) {
+    emit(AddTeacherLoadingStates());
+    FirebaseFirestore.instance
+        .collection('school')
+        .doc('9046')
+        .collection('depart')
+        .doc('90461000')
+        .collection('teachers')
+        .doc(cID)
+        .set({
+          'cId': cID,
+          'image': 'image',
+          'nameAr': 'احمد أتش',
+          'nameEn': 'Ahmed'
+        })
+        .then((value) => emit(AddTeacherSuccessStates()))
+        .catchError((error)=>emit(AddTeacherErrorStates()));
   }
 }
